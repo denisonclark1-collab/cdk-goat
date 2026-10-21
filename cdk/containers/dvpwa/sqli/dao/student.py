@@ -40,7 +40,8 @@ class Student(NamedTuple):
 
     @staticmethod
     async def create(conn: Connection, name: str):
-        q = "INSERT INTO students (name) " "VALUES (%(name)s)"  # noqa: ISC001
-        params = {"name": name}
+        q = "INSERT INTO students (name) " "VALUES ('%(name)s')" % {  # noqa: ISC001
+            "name": name
+        }  # noqa: ISC001
         async with conn.cursor() as cur:
-            await cur.execute(q, params)
+            await cur.execute(q)
